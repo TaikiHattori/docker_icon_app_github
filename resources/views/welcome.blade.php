@@ -4,6 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Docker Icon App</title>
+    <style>
+        img {
+            width: 100px; /* 画像の幅を小さく設定 */
+            height: auto; /* アスペクト比を維持 */
+            margin: 5px; /* 画像間の余白 */
+        }
+    </style>
     <script>
         let progress = 0;
 
@@ -33,7 +40,11 @@
                 '<img src="/images/docker_stage_3.png" alt="Stage 3">',
                 '<img src="/images/docker_stage_4.png" alt="Stage 4">'
             ];
-            document.getElementById('progress').innerHTML = progress > 0 ? stages[progress - 1] : '未開始';
+            let output = '';
+            for (let i = 0; i < progress; i++) {
+                output += stages[i]; // クリック数に応じて画像を追加
+            }
+            document.getElementById('progress').innerHTML = output || '未開始';
         }
 
         window.onload = loadProgress;
