@@ -17,6 +17,33 @@
             color: red;
             margin-top: 20px;
         }
+        .square {
+            width: 50px; /* 正方形の幅 */
+            height: 50px; /* 正方形の高さ */
+            background-color: #2496ed; /* Dockerの青色 */
+            display: inline-block;
+            margin: 1px; /* 正方形間の余白 */
+        }
+        .row {
+            display: flex; /* 横並びにする */
+            justify-content: center; /* 中央揃え */
+        }
+        .row.offset1 {
+            margin-right: 50px; /* 左にずらす */
+        }
+        .square.offset-right {
+        margin-left: 155px; /* 右にずらす */
+        margin-top: -155px; /* 上にずらす */
+        }
+        .square.offset-right-top {
+        margin-left: 211px; /* 右にずらす */
+        margin-top: -51px; /* 上にずらす */
+        }
+
+        .button-container {
+        text-align: left; /* ボタンを左に揃える */
+        margin-left: 200px; /* 必要に応じて左にずらす量を調整 */
+        }
     </style>
     <script>
         let progress = 0;
@@ -74,18 +101,98 @@ async function loadProgress() {
         // }
 
         function renderProgress() {
-            const stages = [
-                '<img src="/images/docker_stage_1.png" alt="Stage 1">',
-                '<img src="/images/docker_stage_2.png" alt="Stage 2">',
-                '<img src="/images/docker_stage_3.png" alt="Stage 3">',
-                '<img src="/images/docker_stage_4.png" alt="Stage 4">'
-            ];
-            let output = '';
-            for (let i = 0; i < progress; i++) {
-                output += stages[i]; // クリック数に応じて画像を追加
-            }
-            document.getElementById('progress').innerHTML = output || '未開始';
-        }
+            const container = document.getElementById('progress');
+            container.innerHTML = ''; // 既存の正方形をクリア
+
+            if (progress >= 1) {
+        // 1クリック目: 3つの正方形を合体した形
+        const row1 = document.createElement('div');
+        row1.className = 'row';
+        const square1 = document.createElement('div');
+        square1.className = 'square';
+        row1.appendChild(square1);
+
+        const row2 = document.createElement('div');
+        row2.className = 'row offset1'; // 左にずらすクラスを追加
+        const square2 = document.createElement('div');
+        square2.className = 'square';
+        const square3 = document.createElement('div');
+        square3.className = 'square';
+        row2.appendChild(square2);
+        row2.appendChild(square3);
+
+        container.appendChild(row1);
+        container.appendChild(row2);
+    }
+
+    if (progress >= 2) {
+        // 2クリック目: 右側に上下2つの正方形を追加
+        const row1 = container.querySelector('.row'); // 1クリック目の上段を取得
+        const square4 = document.createElement('div');
+        square4.className = 'square';
+        row1.appendChild(square4); // 上段に追加
+
+        const row2 = container.querySelector('.row.offset1'); // 1クリック目の下段を取得
+        const square5 = document.createElement('div');
+        square5.className = 'square';
+        row2.appendChild(square5); // 下段に追加
+    }
+
+    if (progress >= 3) {
+        // 3クリック目: 右側にL字型の4つの正方形を追加
+        const row1 = container.querySelector('.row'); // 1クリック目の上段を取得
+        const square6 = document.createElement('div');
+        square6.className = 'square';
+        row1.appendChild(square6); // 上段に追加
+
+        const row2 = container.querySelector('.row.offset1'); // 1クリック目の下段を取得
+        const square7 = document.createElement('div');
+        square7.className = 'square';
+        row2.appendChild(square7); // 下段に追加
+
+        // 新しい行を作成して3段目を追加
+        const row3 = document.createElement('div');
+        row3.className = 'row offset1'; // 左にずらすクラスを追加
+        const square8 = document.createElement('div');
+        square8.className = 'square offset-right'; // 右上にずらすクラスを追加
+        row3.appendChild(square8);
+
+        container.appendChild(row3); // 3段目をコンテナに追加
+    
+        // さらにもう1つの正方形を追加
+        const row4 = document.createElement('div');
+        row4.className = 'row'; // 新しい行を作成
+        const square9 = document.createElement('div');
+        square9.className = 'square offset-right-top'; // 右上にずらすクラスを追加
+        row4.appendChild(square9);
+
+        container.appendChild(row4); // 新しい行をコンテナに追加
+    }
+}
+
+        // function renderProgress() {
+        //     const container = document.getElementById('progress');
+        //     container.innerHTML = ''; // 既存の正方形をクリア
+        //     for (let i = 0; i < progress; i++) {
+        //         const square = document.createElement('div');
+        //         square.className = 'square'; // 正方形のスタイルを適用
+        //         container.appendChild(square);
+        //     }
+        // }
+
+        // function renderProgress() {
+        //     const stages = [
+        //         '<img src="/images/docker_stage_1.png" alt="Stage 1">',
+        //         '<img src="/images/docker_stage_2.png" alt="Stage 2">',
+        //         '<img src="/images/docker_stage_3.png" alt="Stage 3">',
+        //         '<img src="/images/docker_stage_4.png" alt="Stage 4">'
+        //     ];
+        //     let output = '';
+        //     for (let i = 0; i < progress; i++) {
+        //         output += stages[i]; // クリック数に応じて画像を追加
+        //     }
+        //     document.getElementById('progress').innerHTML = output || '未開始';
+        // }
 
         window.onload = loadProgress;
     </script>
@@ -94,8 +201,10 @@ async function loadProgress() {
     <body>
     <div style="text-align: center; margin-top: 50px;">
         <h1>Docker Icon App</h1>
-        <button onclick="updateProgress()">クリック</button>
-        <button onclick="triggerError()">エラーを発生させる</button> <!-- エラー発生ボタン -->
+        <div class="button-container">
+            <button onclick="updateProgress()">dockerアイコンを作る</button>
+            <button onclick="triggerError()">エラーを発生させる</button> <!-- エラー発生ボタン -->
+        </div>
         <br>
         <div id="progress"></div>
         <div id="error"></div> <!-- エラー表示用 -->
