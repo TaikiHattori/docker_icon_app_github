@@ -8,10 +8,12 @@
     
     <title>Docker Icon App</title>
     <style>
+        
         img {
-            width: 100px; /* 画像の幅を小さく設定 */
-            height: auto; /* アスペクト比を維持 */
-            margin: 5px; /* 画像間の余白 */
+        width: 400px; /* 画像の幅を調整 */
+        height: auto; /* アスペクト比を維持 */
+        /* display: block; */
+        margin-right: -100px;
         }
         #error {
             color: red;
@@ -167,6 +169,18 @@ async function loadProgress() {
         row4.appendChild(square9);
 
         container.appendChild(row4); // 新しい行をコンテナに追加
+    }
+
+    if (progress >= 4) {
+    // 4クリック目: 画像を正方形の真下に表示
+    const imageRow = document.createElement('div');
+    imageRow.className = 'row'; // 新しい行を作成
+    const image = document.createElement('img');
+    image.src = '/images/docker_stage_5_2.png'; // 画像のパスを指定　※/publicは不要
+    image.style.marginTop = '1px'; // 上部に余白を追加
+    imageRow.appendChild(image);
+
+    container.appendChild(imageRow); // 画像の行をコンテナに追加
     }
 }
 
