@@ -31,6 +31,7 @@ services:
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
+            - 'progress-data:/var/www/html/storage/app' # 進捗データ用ボリュームを追加
         networks:
             - sail
         depends_on:
@@ -121,4 +122,6 @@ volumes:
     sail-redis:
         driver: local
     sail-meilisearch:
+        driver: local
+    progress-data: # 新しいボリュームを定義
         driver: local
