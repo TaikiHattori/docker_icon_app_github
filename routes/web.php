@@ -30,6 +30,6 @@ Route::post('/reset-progress', function () {
 });
 
 // 手動でエラーを発生させるルート
-// Route::get('/trigger-error', function () {
-//     abort(500, 'エラーが発生しました！');
-// });
+Route::get('/trigger-error', function () {
+    abort(500, 'エラーが発生しました！');
+});

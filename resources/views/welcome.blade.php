@@ -91,16 +91,16 @@ async function loadProgress() {
         }
     }
 
-        // async function triggerError() {
-        //     try {
-        //         const response = await fetch('/trigger-error');
-        //         if (!response.ok) {
-        //             throw new Error(await response.text());
-        //         }
-        //     } catch (error) {
-        //         document.getElementById('error').innerText = error.message; // エラーを表示
-        //     }
-        // }
+        async function triggerError() {
+            try {
+                const response = await fetch('/trigger-error');
+                if (!response.ok) {
+                    throw new Error(await response.text());
+                }
+            } catch (error) {
+                document.getElementById('error').innerText = error.message; // エラーを表示
+            }
+        }
 
         function renderProgress() {
             const container = document.getElementById('progress');
@@ -184,31 +184,8 @@ async function loadProgress() {
     }
 }
 
-        // function renderProgress() {
-        //     const container = document.getElementById('progress');
-        //     container.innerHTML = ''; // 既存の正方形をクリア
-        //     for (let i = 0; i < progress; i++) {
-        //         const square = document.createElement('div');
-        //         square.className = 'square'; // 正方形のスタイルを適用
-        //         container.appendChild(square);
-        //     }
-        // }
 
-        // function renderProgress() {
-        //     const stages = [
-        //         '<img src="/images/docker_stage_1.png" alt="Stage 1">',
-        //         '<img src="/images/docker_stage_2.png" alt="Stage 2">',
-        //         '<img src="/images/docker_stage_3.png" alt="Stage 3">',
-        //         '<img src="/images/docker_stage_4.png" alt="Stage 4">'
-        //     ];
-        //     let output = '';
-        //     for (let i = 0; i < progress; i++) {
-        //         output += stages[i]; // クリック数に応じて画像を追加
-        //     }
-        //     document.getElementById('progress').innerHTML = output || '未開始';
-        // }
-
-        window.onload = loadProgress;
+    window.onload = loadProgress;
     </script>
     </head>
 
